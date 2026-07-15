@@ -1,19 +1,18 @@
 package com.bugtracker.model;
 
 import java.time.LocalDateTime;
-import java.util.List;
+import java.util.Optional;
 
-import com.bugtracker.enums.Role;
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.bugtracker.enums.Priority;
+import com.bugtracker.enums.Status;
 
-import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.OneToMany;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.PrePersist;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -26,24 +25,23 @@ import lombok.Setter;
 @NoArgsConstructor
 
 @Entity
-public class User {
+public class Bug {
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long id;
-	private String name;
-	@Column(unique = true, nullable = false)
-	private String email;
-	private String password;
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	private Long Id;
+	private String title;
+	private String description;
 	@Enumerated(EnumType.STRING)
-	private Role role;
+	private Priority priority;
+	@Enumerated(EnumType.STRING)
+	private Status status;
 	private LocalDateTime createdAt;
-	@JsonIgnore
-	@OneToMany(mappedBy = "assignedUser")
-	private List<Bug> bugs;
+	@ManyToOne
+	private User assignedUser;
 	
-	 @PrePersist
-	  public void onCreate() {
-	      this.createdAt = LocalDateTime.now();
-	  }
-	 
+	@PrePersist
+	public void onCreate() {
+	   this.createdAt = LocalDateTime.now();
+	}
+
 }

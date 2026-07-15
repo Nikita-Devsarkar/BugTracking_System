@@ -1,10 +1,12 @@
 package com.bugtracker.service;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.bugtracker.enums.Role;
 import com.bugtracker.model.LoginDTO;
 import com.bugtracker.model.User;
 import com.bugtracker.repository.UserRepository;
@@ -15,7 +17,7 @@ public class UserService {
 	private UserRepository ur;
  
 	
-	public User addUser(User user) {		
+	public User addUser(User user) {	
 		return ur.save(user);
 	}
 
@@ -38,6 +40,18 @@ public class UserService {
 		}else {
 			throw new RuntimeException("User Not Found");
 		}
+		
+	}
+
+
+	public List<User> getUsers(Role role) {
+		List<User> user = ur.findByRole(role);
+		if(user.contains(role)) {
+			return user;
+		}else {
+			throw new RuntimeException("User Not Found");
+		}
+		
 		
 	}
 

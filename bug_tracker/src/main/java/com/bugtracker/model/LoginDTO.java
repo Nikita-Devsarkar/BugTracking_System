@@ -1,5 +1,7 @@
 package com.bugtracker.model;
 
+import com.bugtracker.enums.Role;
+
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -12,5 +14,5 @@ import lombok.Setter;
 
 public class LoginDTO {
 	private String message;
-	private String role;
+	private Role role;
 }
