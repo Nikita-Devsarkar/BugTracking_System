@@ -1,11 +1,13 @@
 package com.bugtracker.service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.bugtracker.dto.UserDTO;
 import com.bugtracker.enums.Role;
 import com.bugtracker.model.LoginDTO;
 import com.bugtracker.model.User;
@@ -17,8 +19,9 @@ public class UserService {
 	private UserRepository ur;
  
 	
-	public User addUser(User user) {	
-		return ur.save(user);
+	public UserDTO addUser(User user) {	
+		User savedUser = ur.save(user);
+		return convertToDTO(savedUser);
 	}
 
 
@@ -44,15 +47,39 @@ public class UserService {
 	}
 
 
-	public List<User> getUsers(Role role) {
-		List<User> user = ur.findByRole(role);
-		if(user.contains(role)) {
-			return user;
-		}else {
-			throw new RuntimeException("User Not Found");
+	public List<UserDTO> getUsers(Role role) {
+		List<UserDTO> dtoList = new ArrayList<UserDTO>();
+		
+		List<User> users = ur.findByRole(role);
+		
+			for(User user: users) {
+				dtoList.add(convertToDTO(user));
+			}
+			return dtoList;	
+		
+	}
+
+	public List<UserDTO> getAllDevelopers() {
+		List<UserDTO> dtoList = new ArrayList<UserDTO>();
+		List<User> users = ur.findByRole(Role.DEVELOPER);
+		
+		for(User user: users) {
+			dtoList.add(convertToDTO(user));
 		}
-		
-		
+		return dtoList;	
+	}
+
+
+	private UserDTO convertToDTO(User user) {
+	    UserDTO dto = new UserDTO();
+
+	    dto.setId(user.getId());
+	    dto.setName(user.getName());
+	    dto.setEmail(user.getEmail());
+	    dto.setRole(user.getRole());
+	    dto.setCreatedAt(user.getCreatedAt());
+
+	    return dto;
 	}
 
 }

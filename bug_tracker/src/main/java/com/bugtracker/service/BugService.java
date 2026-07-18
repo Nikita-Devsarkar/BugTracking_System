@@ -117,4 +117,15 @@ public class BugService {
 		return br.findByPriority(priority);
 	}
 
+	public List<Bug> getBugByDeveloper(Long id) {
+		Optional<User> optionalUser = ur.findById(id);
+		
+		if(optionalUser.isPresent()) {
+			User user = optionalUser.get();
+			return br.findByAssignedUser(user);
+		}else {
+			throw new RuntimeException("User Not Found!");
+		}
+	}
+
 }

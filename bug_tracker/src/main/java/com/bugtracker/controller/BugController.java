@@ -64,4 +64,11 @@ public class BugController {
 		return bs.getBugByPriority(priority);
 		
 	}
+	
+	@GetMapping("bug/developer/{id}")
+	public List<Bug> getBugByDeveloper(@PathVariable("id") Long Id){
+		return bs.getBugByDeveloper(Id);
+	}
+	
+	
 }
