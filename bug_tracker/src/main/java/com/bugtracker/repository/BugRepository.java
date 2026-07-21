@@ -17,4 +17,8 @@ public interface BugRepository extends JpaRepository<Bug, Long> {
 
 	List<Bug> findByAssignedUser(User user);
 
+	Long countByStatus(Status open);
+
+	Long countByPriority(Priority high);
+
 }

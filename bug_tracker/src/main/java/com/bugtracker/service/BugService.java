@@ -1,11 +1,13 @@
 package com.bugtracker.service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.bugtracker.dto.BugDTO;
 import com.bugtracker.enums.Priority;
 import com.bugtracker.enums.Role;
 import com.bugtracker.enums.Status;
@@ -22,26 +24,34 @@ public class BugService {
 	@Autowired
 	private UserRepository ur;
 
-	public Bug addBug(Bug bug) {
-		return br.save(bug);
+	public BugDTO addBug(Bug bug) {
+		Bug savedbug = br.save(bug);
+		return convertToDTO(savedbug);
 	}
 
-	public List<Bug> getAllBugs() {
-		return br.findAll();
+	public List<BugDTO> getAllBugs() {
+		List<BugDTO> dtolist = new ArrayList<BugDTO>();
+		List<Bug> allbug  = br.findAll();
+		
+		for(Bug bug : allbug) {
+			dtolist.add(convertToDTO(bug));
+		}
+		
+		return dtolist;
 	}
 
-	public Bug getBugById(Long Id) {
+	public BugDTO getBugById(Long Id) {
 		Optional<Bug> optionalbug = br.findById(Id);
 		
 		if(optionalbug.isPresent()) {
-			return optionalbug.get();
+			return convertToDTO(optionalbug.get());
 		}else {
 			throw new RuntimeException("Bug Not Found!");
 		}
 		
 	}
 
-	public Bug updateBug(Long id, Bug newBug) {
+	public BugDTO updateBug(Long id, Bug newBug) {
 		Optional<Bug> optionalbug = br.findById(id);
 		
 		if(optionalbug.isPresent()) {
@@ -60,7 +70,9 @@ public class BugService {
 		    	oldBug.setStatus(newBug.getStatus());
 		    }
 			
-			return br.save(oldBug);
+		    Bug savedbug = br.save(oldBug);
+		    
+			return convertToDTO(savedbug);
 			
 		}else {
 			throw new RuntimeException("Bug Not Found!");
@@ -82,7 +94,7 @@ public class BugService {
 		
 	}
 
-	public Bug assignedUser(Long id, Long uid) {
+	public BugDTO assignedUser(Long id, Long uid) {
 		Optional<Bug> optionalbug = br.findById(id); 
 		
 		if(optionalbug.isPresent()) {
@@ -97,8 +109,10 @@ public class BugService {
 				}
 				
 				allBug.setAssignedUser(myData);
-			
-				return br.save(allBug);	
+				
+				Bug assignedbug = br.save(allBug);
+				
+				return convertToDTO(assignedbug);	
 			}else {
 				throw new RuntimeException("User Not Found!");
 			}
@@ -109,23 +123,72 @@ public class BugService {
 		
 	}
 
-	public List<Bug> getBugByStatus(Status status) {	
-		  return br.findByStatus(status);
+	public List<BugDTO> getBugByStatus(Status status) {	
+		List<BugDTO> dtostatus = new ArrayList<BugDTO>();
+		
+		List<Bug> allbug  = br.findByStatus(status);
+		
+		for(Bug bug : allbug) {
+			dtostatus.add(convertToDTO(bug));
+		}
+		
+		return dtostatus;
 	}
 
-	public List<Bug> getBugByPriority(Priority priority) {
-		return br.findByPriority(priority);
+	public List<BugDTO> getBugByPriority(Priority priority) {
+		List<BugDTO> dtopriority = new ArrayList<BugDTO>();
+		
+		List<Bug> allbug  = br.findByPriority(priority);
+		
+		for(Bug bug : allbug) {
+			dtopriority.add(convertToDTO(bug));
+		}
+
+		
+		return dtopriority;
 	}
 
-	public List<Bug> getBugByDeveloper(Long id) {
+	public List<BugDTO> getBugByDeveloper(Long id) {
+		List<BugDTO> dtoList = new ArrayList<BugDTO>();
 		Optional<User> optionalUser = ur.findById(id);
 		
 		if(optionalUser.isPresent()) {
 			User user = optionalUser.get();
-			return br.findByAssignedUser(user);
+			
+			if (user.getRole() != Role.DEVELOPER) {
+			    throw new RuntimeException("User is not a Developer");
+			}
+			
+			List<Bug> assignedBugs = br.findByAssignedUser(user);
+			
+			for (Bug bug : assignedBugs) {
+			    dtoList.add(convertToDTO(bug));
+			}
+			
+			return dtoList;
 		}else {
 			throw new RuntimeException("User Not Found!");
 		}
+	}
+	
+	private BugDTO convertToDTO(Bug bug) {
+		BugDTO dto = new BugDTO();
+		
+		dto.setId(bug.getId());
+		dto.setTitle(bug.getTitle());
+		dto.setDescription(bug.getDescription());
+		dto.setPriority(bug.getPriority());
+		dto.setStatus(bug.getStatus());
+		dto.setCreatedAt(bug.getCreatedAt());
+		
+		if(bug.getAssignedUser() != null) {
+			dto.setAssignedUserId(bug.getAssignedUser().getId());
+			dto.setAssignedUserName(bug.getAssignedUser().getName());
+		}
+		
+		
+		return dto;
+		
 	}
 
 }

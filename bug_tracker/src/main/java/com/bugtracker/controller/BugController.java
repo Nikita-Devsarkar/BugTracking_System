@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.bugtracker.dto.BugDTO;
 import com.bugtracker.enums.Priority;
 import com.bugtracker.enums.Status;
 import com.bugtracker.model.Bug;
@@ -23,22 +24,22 @@ public class BugController {
 	private BugService bs;
 	
 	@PostMapping("/bug")
-	public Bug addBug(@RequestBody Bug bug) {
+	public BugDTO addBug(@RequestBody Bug bug) {
 		return bs.addBug(bug);
 	}
 	
 	@GetMapping("/bugs")
-	public List<Bug> getAllBugs(){
+	public List<BugDTO> getAllBugs(){
 		return bs.getAllBugs();
 	}
 	
 	@GetMapping("/bug/{id}")
-	public Bug getBugById(@PathVariable("id") Long Id) {
+	public BugDTO getBugById(@PathVariable("id") Long Id) {
 		return bs.getBugById(Id);
 	}
 	
 	@PutMapping("/bug/{id}")
-	public Bug updateBug(@PathVariable("id") Long Id,@RequestBody Bug newBug) {
+	public BugDTO updateBug(@PathVariable("id") Long Id,@RequestBody Bug newBug) {
 		return bs.updateBug(Id, newBug);
 	}
 	
@@ -48,25 +49,25 @@ public class BugController {
 	}
 	
 	@PutMapping("bug/assign/{id}/{uid}")
-	public Bug assignedUser(@PathVariable("id") Long Id, @PathVariable("uid") Long uid ) {
+	public BugDTO assignedUser(@PathVariable("id") Long Id, @PathVariable("uid") Long uid ) {
 		return bs.assignedUser(Id,uid) ;
 		
 	}
 	
 	@GetMapping("bug/status")
-	public List<Bug> getBugByStatus(@RequestParam("status") Status status){
+	public List<BugDTO> getBugByStatus(@RequestParam("status") Status status){
 		return bs.getBugByStatus(status);
 		
 	}
 	
 	@GetMapping("bug/priority")
-	public List<Bug> getBugByPriority(@RequestParam("priority") Priority priority){
+	public List<BugDTO> getBugByPriority(@RequestParam("priority") Priority priority){
 		return bs.getBugByPriority(priority);
 		
 	}
 	
 	@GetMapping("bug/developer/{id}")
-	public List<Bug> getBugByDeveloper(@PathVariable("id") Long Id){
+	public List<BugDTO> getBugByDeveloper(@PathVariable("id") Long Id){
 		return bs.getBugByDeveloper(Id);
 	}
 	
