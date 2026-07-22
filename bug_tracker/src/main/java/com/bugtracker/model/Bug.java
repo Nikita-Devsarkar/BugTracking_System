@@ -14,6 +14,8 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.PrePersist;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -29,11 +31,15 @@ public class Bug {
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Long Id;
+	@NotBlank
 	private String title;
+	@NotBlank
 	private String description;
 	@Enumerated(EnumType.STRING)
+	@NotNull
 	private Priority priority;
 	@Enumerated(EnumType.STRING)
+	@NotNull
 	private Status status;
 	private LocalDateTime createdAt;
 	@ManyToOne
