@@ -9,6 +9,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.bugtracker.dto.LoginRequestDTO;
+import com.bugtracker.dto.LoginResponseDTO;
 import com.bugtracker.dto.UserDTO;
 import com.bugtracker.enums.Role;
 import com.bugtracker.model.LoginDTO;
@@ -31,8 +33,8 @@ public class UserController {
 	}
 	
 	@PostMapping("/login")
-	public LoginDTO login(@RequestParam("email") String email,@RequestParam("password") String password) {
-		return us.login(email, password);
+	public LoginResponseDTO login(@RequestBody LoginRequestDTO dto) {
+		return us.login(dto);
 	}
 	
 	@GetMapping("/user/developers")

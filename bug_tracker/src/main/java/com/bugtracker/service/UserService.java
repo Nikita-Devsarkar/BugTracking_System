@@ -7,6 +7,8 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.bugtracker.dto.LoginRequestDTO;
+import com.bugtracker.dto.LoginResponseDTO;
 import com.bugtracker.dto.UserDTO;
 import com.bugtracker.enums.Role;
 import com.bugtracker.model.LoginDTO;
@@ -25,18 +27,19 @@ public class UserService {
 	}
 
 
-	public LoginDTO login(String email,String password) {
-		Optional<User> user = ur.findByEmail(email);
+	public LoginResponseDTO login(LoginRequestDTO dto) {
+		Optional<User> user = ur.findByEmail(dto.getEmail());
 		
 		if(user.isPresent()) {
 			User myData = user.get();
-			if(myData.getPassword().equals(password)){
-				LoginDTO check = new LoginDTO();
+			if(myData.getPassword().equals(dto.getPassword())){
+				LoginResponseDTO response = new LoginResponseDTO();
 				
-				check.setMessage("Login Successful");
-				check.setRole(myData.getRole());
+				response.setMessage("Login Successful");
+				response.setRole(myData.getRole());
+				response.setUserId(myData.getId());
 				
-				return check;
+				return response;
 			}else {
 				throw new RuntimeException("Wrong Password!");
 			}
