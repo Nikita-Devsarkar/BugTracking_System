@@ -22,6 +22,8 @@ public class BugDTO {
 	private Priority priority;
 	private Status status;
 	private LocalDateTime createdAt;
+	private Long createdById;
+	private String createdByName;
 	private Long assignedUserId;
 	private String assignedUserName;
 }

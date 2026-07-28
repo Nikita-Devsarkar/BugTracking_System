@@ -5,6 +5,7 @@ import AdminDashboard from "./pages/AdminDashboard";
 import DeveloperDashboard from "./pages/DeveloperDashboard";
 import TesterDashboard from "./pages/TesterDashboard";
 import ProtectedRoute from "./components/ProtectedRoute";
+import ReportBug from "./pages/ReportBug";
 import './App.css'
 
 function App() {
@@ -34,6 +35,14 @@ function App() {
             element={
                 <ProtectedRoute>
                     <TesterDashboard />
+                </ProtectedRoute>
+            }
+        />
+        <Route
+            path="/report-bug"
+            element={
+                <ProtectedRoute>
+                    <ReportBug />
                 </ProtectedRoute>
             }
         />

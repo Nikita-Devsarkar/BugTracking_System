@@ -43,6 +43,8 @@ public class Bug {
 	private Status status;
 	private LocalDateTime createdAt;
 	@ManyToOne
+	private User createdBy;
+	@ManyToOne
 	private User assignedUser;
 	
 	@PrePersist

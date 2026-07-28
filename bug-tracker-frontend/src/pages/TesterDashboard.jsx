@@ -15,8 +15,12 @@ function TesterDashboard() {
                 Tester Dashboard
             </h1>
 
-            <button onClick={handleLogout} className="bg-red-600 text-white px-6 py-2 rounded hover:bg-red-700">
+            <button onClick={handleLogout} className="bg-red-600 text-white px-6 py-2 rounded hover:bg-red-700 mb-4">
                 Logout
+            </button>
+
+            <button onClick={() => navigate("/report-bug")} className="bg-blue-600 text-white px-6 py-2 rounded hover:bg-blue-700">
+                Report Bug
             </button>
         </div>
     );

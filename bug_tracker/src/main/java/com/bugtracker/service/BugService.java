@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.bugtracker.dto.BugDTO;
+import com.bugtracker.dto.CreateBugDTO;
 import com.bugtracker.enums.Priority;
 import com.bugtracker.enums.Role;
 import com.bugtracker.enums.Status;
@@ -24,9 +25,35 @@ public class BugService {
 	@Autowired
 	private UserRepository ur;
 
-	public BugDTO addBug(Bug bug) {
-		Bug savedbug = br.save(bug);
-		return convertToDTO(savedbug);
+	public BugDTO addBug(CreateBugDTO dto) {
+		System.out.println(dto.getCreatedById());
+		System.out.println(dto.getTitle());
+		System.out.println(dto.getDescription());
+		System.out.println(dto.getPriority());
+
+	    Bug bug = new Bug();
+
+	    bug.setTitle(dto.getTitle());
+	    bug.setDescription(dto.getDescription());
+	    bug.setPriority(dto.getPriority());
+
+	    bug.setStatus(Status.OPEN);
+
+	    Optional<User> optionalUser = ur.findById(dto.getCreatedById());
+
+	    if(optionalUser.isPresent()) {
+
+	        bug.setCreatedBy(optionalUser.get());
+
+	        Bug savedBug = br.save(bug);
+
+	        return convertToDTO(savedBug);
+
+	    } else {
+
+	        throw new RuntimeException("User Not Found!");
+
+	    }
 	}
 
 	public List<BugDTO> getAllBugs() {
@@ -180,6 +207,11 @@ public class BugService {
 		dto.setPriority(bug.getPriority());
 		dto.setStatus(bug.getStatus());
 		dto.setCreatedAt(bug.getCreatedAt());
+		
+		if (bug.getCreatedBy() != null) {
+		    dto.setCreatedById(bug.getCreatedBy().getId());
+		    dto.setCreatedByName(bug.getCreatedBy().getName());
+		}
 		
 		if(bug.getAssignedUser() != null) {
 			dto.setAssignedUserId(bug.getAssignedUser().getId());
