@@ -21,4 +21,6 @@ public interface BugRepository extends JpaRepository<Bug, Long> {
 
 	Long countByPriority(Priority high);
 
+	List<Bug> findByCreatedBy(User user);
+
 }

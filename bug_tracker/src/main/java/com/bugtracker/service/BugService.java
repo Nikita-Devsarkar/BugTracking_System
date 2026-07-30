@@ -198,6 +198,28 @@ public class BugService {
 		}
 	}
 	
+	public List<BugDTO> getBugByTester(Long id) {
+	    List<BugDTO> dtoList = new ArrayList<>();
+	    Optional<User> optionalUser = ur.findById(id);
+
+	    if (optionalUser.isPresent()) {
+	        User user = optionalUser.get();
+	        
+	        if (user.getRole() != Role.TESTER) {
+	            throw new RuntimeException("User is not a Tester");
+	        }
+
+	        List<Bug> bugs = br.findByCreatedBy(user);
+
+	        for (Bug bug : bugs) {
+	            dtoList.add(convertToDTO(bug));
+	        }
+	        return dtoList;
+	    } else {
+	        throw new RuntimeException("User Not Found!");
+	    }
+	}
+	
 	private BugDTO convertToDTO(Bug bug) {
 		BugDTO dto = new BugDTO();
 		

@@ -74,5 +74,9 @@ public class BugController {
 		return bs.getBugByDeveloper(Id);
 	}
 	
+	@GetMapping("bug/tester/{id}")
+	public List<BugDTO> getBugByTester(@PathVariable("id") Long id) {
+	    return bs.getBugByTester(id);
+	}
 	
 }
