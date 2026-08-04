@@ -1,7 +1,9 @@
 package com.bugtracker.dto;
 
-import java.time.LocalDateTime;
+import java.time.LocalDateTime; 
+import java.time.LocalDate;
 
+import com.bugtracker.enums.Category;
 import com.bugtracker.enums.Priority;
 import com.bugtracker.enums.Status;
 
@@ -21,7 +23,10 @@ public class BugDTO {
 	private String description;
 	private Priority priority;
 	private Status status;
+	private Category category;
+	private LocalDate dueDate;
 	private LocalDateTime createdAt;
+	private LocalDateTime updatedAt;
 	private Long createdById;
 	private String createdByName;
 	private Long assignedUserId;

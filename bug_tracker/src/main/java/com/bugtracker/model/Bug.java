@@ -1,8 +1,9 @@
 package com.bugtracker.model;
 
 import java.time.LocalDateTime;
-import java.util.Optional;
+import java.time.LocalDate;
 
+import com.bugtracker.enums.Category;
 import com.bugtracker.enums.Priority;
 import com.bugtracker.enums.Status;
 
@@ -14,6 +15,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.PrePersist;
+import jakarta.persistence.PreUpdate;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
@@ -41,7 +43,13 @@ public class Bug {
 	@Enumerated(EnumType.STRING)
 	@NotNull
 	private Status status;
+	@Enumerated(EnumType.STRING)
+	@NotNull
+	private Category category;
+
+	private LocalDate dueDate;
 	private LocalDateTime createdAt;
+	private LocalDateTime updatedAt;
 	@ManyToOne
 	private User createdBy;
 	@ManyToOne
@@ -50,6 +58,12 @@ public class Bug {
 	@PrePersist
 	public void onCreate() {
 	   this.createdAt = LocalDateTime.now();
+	   this.updatedAt = LocalDateTime.now();
+	}
+	
+	@PreUpdate
+	public void onUpdate() {
+	    this.updatedAt = LocalDateTime.now();
 	}
 
 }

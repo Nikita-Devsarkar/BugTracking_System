@@ -36,6 +36,9 @@ public class BugService {
 	    bug.setTitle(dto.getTitle());
 	    bug.setDescription(dto.getDescription());
 	    bug.setPriority(dto.getPriority());
+	    
+	    bug.setCategory(dto.getCategory());
+	    bug.setDueDate(dto.getDueDate());
 
 	    bug.setStatus(Status.OPEN);
 
@@ -95,6 +98,13 @@ public class BugService {
 		    }
 		    if(newBug.getStatus()!= null) {
 		    	oldBug.setStatus(newBug.getStatus());
+		    }
+		    if(newBug.getCategory() != null) {
+		        oldBug.setCategory(newBug.getCategory());
+		    }
+
+		    if(newBug.getDueDate() != null) {
+		        oldBug.setDueDate(newBug.getDueDate());
 		    }
 			
 		    Bug savedbug = br.save(oldBug);
@@ -228,7 +238,10 @@ public class BugService {
 		dto.setDescription(bug.getDescription());
 		dto.setPriority(bug.getPriority());
 		dto.setStatus(bug.getStatus());
+		dto.setCategory(bug.getCategory());
+		dto.setDueDate(bug.getDueDate());
 		dto.setCreatedAt(bug.getCreatedAt());
+		dto.setUpdatedAt(bug.getUpdatedAt());
 		
 		if (bug.getCreatedBy() != null) {
 		    dto.setCreatedById(bug.getCreatedBy().getId());
