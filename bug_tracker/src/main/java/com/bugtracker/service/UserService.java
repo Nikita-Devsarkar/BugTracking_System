@@ -37,6 +37,7 @@ public class UserService {
 				
 				response.setMessage("Login Successful");
 				response.setRole(myData.getRole());
+				response.setName(myData.getName());
 				response.setUserId(myData.getId());
 				
 				return response;

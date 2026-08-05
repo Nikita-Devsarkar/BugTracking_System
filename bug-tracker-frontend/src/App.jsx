@@ -3,6 +3,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Login from './pages/Login'
 import AdminDashboard from "./pages/AdminDashboard";
 import DeveloperDashboard from "./pages/DeveloperDashboard";
+import AssignedBugs from "./pages/AssignedBugs";
 import TesterDashboard from "./pages/TesterDashboard";
 import ProtectedRoute from "./components/ProtectedRoute";
 import ReportBug from "./pages/ReportBug";
@@ -28,6 +29,15 @@ function App() {
                   <DeveloperDashboard />
               </ProtectedRoute>
           }
+        />
+
+        <Route
+            path="/developer/bugs"
+            element={
+              <ProtectedRoute>
+                  <AssignedBugs />
+              </ProtectedRoute>
+            }
         />
 
         <Route

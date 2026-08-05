@@ -1,31 +1,60 @@
 import { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
 import axios from "axios";
 
+import Sidebar from "../components/Sidebar";
+import Topbar from "../components/Topbar";
+import StatsCard from "../components/StatsCard";
+
+import {
+    Bug,
+    FolderOpen,
+    Clock3,
+    CheckCircle
+} from "lucide-react";
+
 function DeveloperDashboard() {
-    const navigate = useNavigate();
+
     const [bugs, setBugs] = useState([]);
-    const userId = localStorage.getItem("userId");
     const [selectedStatus, setSelectedStatus] = useState({});
+
+    const userId = localStorage.getItem("userId");
 
     useEffect(() => {
         fetchAssignedBugs();
     }, []);
 
-    const handleLogout = () => {
-        localStorage.removeItem("userId");
-        localStorage.removeItem("role");
-        navigate("/");
+    const fetchAssignedBugs = async () => {
+
+        try {
+
+            const response = await axios.get(
+                `http://localhost:8080/bug/developer/${userId}`
+            );
+
+            setBugs(response.data);
+
+        } catch (error) {
+
+            console.error(error);
+
+            alert("Failed to load assigned bugs");
+
+        }
     };
+
 
     const handleUpdateStatus = async (bugId) => {
 
         try {
 
+            const status =
+                selectedStatus[bugId] ||
+                bugs.find(bug => bug.id === bugId)?.status;
+
             await axios.put(
                 `http://localhost:8080/bug/${bugId}`,
                 {
-                    status: selectedStatus[bugId]
+                    status: status
                 }
             );
 
@@ -42,95 +71,65 @@ function DeveloperDashboard() {
         }
     };
 
-    const fetchAssignedBugs = async () => {
-        try {
-
-            const response = await axios.get(
-                `http://localhost:8080/bug/developer/${userId}`
-            );
-
-            setBugs(response.data);
-
-            console.log(response.data);
-
-        } catch (error) {
-
-            console.error(error);
-
-            alert("Failed to load assigned bugs");
-
-        }
-    };
 
     return (
-        <div className="min-h-screen bg-gray-100 p-6">
+        <div className="min-h-screen bg-slate-100 flex">
 
-            <div className="flex justify-between items-center mb-6">
-                <h1 className="text-4xl font-bold">
-                    Developer Dashboard
-                </h1>
+            <Sidebar />
 
-                <button
-                    onClick={handleLogout}
-                    className="bg-red-600 text-white px-6 py-2 rounded hover:bg-red-700"
-                >
-                    Logout
-                </button>
+            <div className="flex-1">
+                <Topbar
+                    title="Developer Dashboard"
+                    subtitle="Manage your assigned bugs"
+                />
+
+                <main className="p-6">
+
+                    <div className="mb-6">
+                        <h1 className="text-3xl font-bold text-slate-800">
+                            Welcome Back! 👋
+                        </h1>
+
+                        <p className="text-gray-500 mt-1">
+                            Here's an overview of your assigned bugs.
+                        </p>
+                    </div>
+
+                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
+
+                        <StatsCard
+                            title="Assigned Bugs"
+                            count={bugs.length}
+                            type="blue"
+                            icon={<Bug size={24} />}
+                        />
+
+                        <StatsCard
+                            title="Open"
+                            count={bugs.filter(bug => bug.status === "OPEN").length}
+                            type="orange"
+                            icon={<FolderOpen size={24} />}
+                        />
+
+                        <StatsCard
+                            title="In Progress"
+                            count={bugs.filter(bug => bug.status === "IN_PROGRESS").length}
+                            type="purple"
+                            icon={<Clock3 size={24} />}
+                        />
+
+                        <StatsCard
+                            title="Resolved"
+                            count={bugs.filter(bug => bug.status === "RESOLVED").length}
+                            type="green"
+                            icon={<CheckCircle size={24} />}
+                        />
+
+                    </div>
+
+                </main>
+
             </div>
-
-            <table className="w-full border border-collapse bg-white">
-
-                <thead className="bg-gray-200">
-                    <tr>
-                        <th className="border p-2">ID</th>
-                        <th className="border p-2">Title</th>
-                        <th className="border p-2">Priority</th>
-                        <th className="border p-2">Status</th>
-                        <th className="border p-2">Change Status</th>
-                        <th className="border p-2">Action</th>
-                    </tr>
-                </thead>
-
-                <tbody>
-
-                    {bugs.map((bug) => (
-
-                        <tr key={bug.id}>
-                            <td className="border p-2">{bug.id}</td>
-                            <td className="border p-2">{bug.title}</td>
-                            <td className="border p-2">{bug.priority}</td>
-                            <td className="border p-2">{bug.status}</td>
-                            <td className="border p-2">
-                                <select
-                                    value={selectedStatus[bug.id] || bug.status}
-                                    onChange={(e) =>
-                                        setSelectedStatus({
-                                            ...selectedStatus,
-                                            [bug.id]: e.target.value
-                                        })
-                                    }
-                                    className="border p-1 rounded"
-                                >
-                                    <option value="OPEN">OPEN</option>
-                                    <option value="IN_PROGRESS">IN_PROGRESS</option>
-                                    <option value="RESOLVED">RESOLVED</option>
-                                </select>
-                            </td>
-                            <td className="border p-2">
-                                <button
-                                    onClick={() => handleUpdateStatus(bug.id)}
-                                    className="bg-blue-600 text-white px-3 py-1 rounded hover:bg-blue-700"
-                                >
-                                    Update
-                                </button>
-                            </td>
-                        </tr>
-
-                    ))}
-
-                </tbody>
-
-            </table>
 
         </div>
     );

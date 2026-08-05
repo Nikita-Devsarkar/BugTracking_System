@@ -24,6 +24,7 @@ function Login() {
 
             if (response.data.message === "Login Successful") {
                 localStorage.setItem("userId", response.data.userId);
+                localStorage.setItem("userName", response.data.name);
                 localStorage.setItem("role", response.data.role);
 
                 setEmail("");
