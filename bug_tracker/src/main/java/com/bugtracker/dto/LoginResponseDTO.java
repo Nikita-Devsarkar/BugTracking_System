@@ -1,7 +1,5 @@
 package com.bugtracker.dto;
 
-import java.time.LocalDateTime;
-
 import com.bugtracker.enums.Role;
 
 import lombok.AllArgsConstructor;
@@ -20,4 +18,5 @@ public class LoginResponseDTO {
     private Long userId;
     private String name;
     private Role role;
+    private String token;
 }

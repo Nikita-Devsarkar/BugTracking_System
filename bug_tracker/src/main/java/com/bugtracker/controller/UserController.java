@@ -1,6 +1,6 @@
 package com.bugtracker.controller;
 
-import java.util.List;
+import java.util.List; 
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -14,7 +14,6 @@ import com.bugtracker.dto.LoginRequestDTO;
 import com.bugtracker.dto.LoginResponseDTO;
 import com.bugtracker.dto.UserDTO;
 import com.bugtracker.enums.Role;
-import com.bugtracker.model.LoginDTO;
 import com.bugtracker.model.User;
 import com.bugtracker.service.UserService;
 
