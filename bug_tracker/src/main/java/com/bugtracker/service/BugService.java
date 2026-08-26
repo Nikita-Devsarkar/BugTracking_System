@@ -87,6 +87,10 @@ public class BugService {
 		if(optionalbug.isPresent()) {
 			Bug oldBug = optionalbug.get();
 			
+			if (oldBug.getStatus() == Status.CLOSED) {
+	            throw new RuntimeException("Closed bug cannot be updated");
+	        }
+			
 			if(newBug.getTitle() != null) {
 				oldBug.setTitle(newBug.getTitle());
 			}
@@ -136,6 +140,10 @@ public class BugService {
 		
 		if(optionalbug.isPresent()) {
 			Bug allBug = optionalbug.get();
+			
+			if (allBug.getStatus() == Status.CLOSED) {
+	            throw new RuntimeException("Closed bug cannot be reassigned");
+	        }
 			
 			Optional<User> optionaluser = ur.findById(uid);
 			
