@@ -23,6 +23,12 @@ function StatsCard({ title, count, icon, type }) {
             icon: "bg-emerald-50 text-emerald-600",
             number: "text-slate-800",
             accent: "bg-emerald-500"
+        },
+
+        gray: {
+            icon: "bg-slate-100 text-slate-600",
+            number: "text-slate-800",
+            accent: "bg-slate-500"
         }
     };
 

@@ -7,13 +7,15 @@ import AssignedBugs from "./pages/AssignedBugs";
 import TesterDashboard from "./pages/TesterDashboard";
 import ProtectedRoute from "./components/ProtectedRoute";
 import ReportBug from "./pages/ReportBug";
+import LandingPage from "./pages/LandingPage";
 import './App.css'
 
 function App() {
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="/" element={<Login />} />
+        <Route path="/" element={<LandingPage />} />
+        <Route path="/login" element={<Login />} />
         <Route 
           path="/admin" 
           element={

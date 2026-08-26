@@ -1,14 +1,18 @@
 import { Bell, UserCircle } from "lucide-react";
 
-function Topbar({ title = "Developer Dashboard", subtitle = "Manage your assigned bugs" }) {
-    
+function Topbar({
+    title = "Dashboard",
+    subtitle = "Manage your bugs"
+}) {
     const userName = localStorage.getItem("userName");
     const role = localStorage.getItem("role");
 
     return (
-        <div className="bg-white border-b border-slate-200 px-6 py-4
-            flex justify-between items-center"
+        <header
+            className="fixed top-0 right-0 left-64 h-[73px] bg-white border-b
+                border-slate-200 px-6 flex justify-between items-center z-40"
         >
+
             <div>
                 <h2 className="text-xl font-semibold text-slate-800">
                     {title}
@@ -21,15 +25,15 @@ function Topbar({ title = "Developer Dashboard", subtitle = "Manage your assigne
 
             <div className="flex items-center gap-5">
                 <button
-                    className="relative p-2 rounded-lg text-slate-500
-                    hover:bg-slate-100 hover:text-slate-800 transition"
+                    className="relative p-2 rounded-lg text-slate-500 hover:bg-slate-100
+                        hover:text-slate-800 transition"
                 >
                     <Bell size={20} />
-
-                    <span className="absolute top-1 right-1 w-2 h-2
-                    bg-red-500 rounded-full">
-                    </span>
+                    <span
+                        className="absolute top-1 right-1 w-2 h-2 bg-red-500 rounded-full"
+                    />
                 </button>
+
 
                 <div className="flex items-center gap-3 pl-4 border-l border-slate-200">
                     <UserCircle
@@ -48,7 +52,7 @@ function Topbar({ title = "Developer Dashboard", subtitle = "Manage your assigne
                     </div>
                 </div>
             </div>
-        </div>
+        </header>
     );
 }
 
