@@ -76,30 +76,30 @@ Bug Tracking System is a full-stack web application for reporting, assigning, ma
 ## 📂 Project Structure
 
 ```text
-BugTracking_System
+BugTracking_System/
 │
-├── bug_tracker
-│   ├── controller
-│   ├── dto
-│   ├── entity
-│   ├── exception
-│   ├── model
-│   ├── repository
-│   ├── security
-│   ├── service
+├── bug_tracker/
+│   ├── controller/
+│   ├── dto/
+│   ├── entity/
+│   ├── exception/
+│   ├── model/
+│   ├── repository/
+│   ├── security/
+│   ├── service/
 │   └── application.properties
 │
-├── bug-tracker-frontend
-│   ├── components
-│   ├── pages
+├── bug-tracker-frontend/
+│   ├── components/
+│   ├── pages/
 │   ├── App.jsx
 │   └── main.jsx
 │
 └── README.md
+```
 
 ---
-
-## 🔐 Authentication
+### 🔐 Authentication
 
 * JWT Based Authentication
 * Role-Based Authorization
@@ -272,7 +272,7 @@ API testing was performed using **Postman**.
 Add screenshots of the main application pages:
 
 * Login Page
-<img width="734" height="395" alt="image" src="https://github.com/user-attachments/assets/f53bf3f2-aca8-4773-b01b-2a8d7a7d94d3" />
+<img width="1919" height="816" alt="image" src="https://github.com/user-attachments/assets/cbc4a7a6-9c4d-4e3d-8688-e214134ad321" />
 
 * Admin Dashboard
 <img width="950" height="406" alt="image" src="https://github.com/user-attachments/assets/65ab0424-5eb6-468f-a4e2-8b5536f0ab47" />
@@ -284,8 +284,8 @@ Add screenshots of the main application pages:
 <img width="1913" height="789" alt="image" src="https://github.com/user-attachments/assets/0175915e-02ad-4b4f-8d69-e629324c2c5c" />
   
 * Developer Dashboard
-<img width="1913" height="830" alt="image" src="https://github.com/user-attachments/assets/0b64681d-3035-499e-830b-
-e75a8c609fb9" />
+<img width="1916" height="812" alt="image" src="https://github.com/user-attachments/assets/a10697cb-7cad-4b36-98c8-915485c02ead" />
+
 
 * Assigned Bugs
 <img width="1919" height="831" alt="image" src="https://github.com/user-attachments/assets/90196d3b-14ca-42f8-b3c6-c65842bd9291" />
